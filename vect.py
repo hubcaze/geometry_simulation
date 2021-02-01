@@ -54,10 +54,21 @@ class Vect:
 	def unconvert(self,px,py):
 		return(px*20+360, (py*20)*-1+360)
 
+	def convert(self, px, py):
+		return((px-360)/20,((py-360)*-1)/20)
+
 	def rotate(self, pangle):
 		angle = math.radians(pangle)
-		self.x = math.cos(angle)*self.x-math.sin(angle)*self.y
-		self.y = math.sin(angle)*self.x+math.sin(angle)*self.y 
+		print(self.x,self.y)
+		print("Angle:"+str(self._angle))
+		print("Rotation d'angle:",str(angle))
+		tmp_x, tmp_y = self.convert(self.x, self.y)
+		print(tmp_x,tmp_y)
+		print(math.sin(angle))
+		print(math.sin(angle)*tmp_x)
+		self.x,self.y= self.unconvert(math.cos(angle)*tmp_x-math.sin(angle)*tmp_y,math.sin(angle)*tmp_x+math.cos(angle)*tmp_y)
+		print("Nouvelles coords")
+		print(self.convert(self.x,self.y))
 		self.canv.coords(self._id,self.xo,self.yo,self.x,self.y)
 		self._angle += angle
 
