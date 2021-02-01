@@ -55,10 +55,10 @@ class App:
 			text="Effectuer une rotation",command=self.rotate_vect)
 
 		self.vect_translate = tk.Button(self.infos,
-			text="Effectuer une translation",command=self.place_vect)
+			text="Effectuer une translation",command=self.translate_vect)
 
 		self.vect_scale = tk.Button(self.infos,
-			text="Effectuer une homotéthie",command=self.place_vect)
+			text="Effectuer une homotéthie",command=self.scale_vect)
 
 		self.canv = tk.Canvas(
 			self.root,
@@ -203,11 +203,11 @@ class App:
 		l = tk.Label(lf, text="Norme: ")
 		self.s = tk.Spinbox(lf, from_=1, to=100)
 		self.s.delete(0, tk.END)
-		self.s.insert(0, 1)
+		self.s.insert(0, 10)
 		l2 = tk.Label(lf, text="Angle (en degrès°): ")
 		self.s2 = tk.Spinbox(lf, from_=0, to=360)
 		self.s2.delete(0, tk.END)
-		self.s2.insert(0, 0)
+		self.s2.insert(45, 45)
 
 		b = tk.Button(lf,
 			text="Valider",command=self.confirm_vect)
@@ -234,7 +234,7 @@ class App:
 		l = tk.Label(lf, text="Angle (°degrès): ")
 		self.s = tk.Spinbox(lf, from_=1, to=360)
 		self.s.delete(0, tk.END)
-		self.s.insert(0, 0)
+		self.s.insert(0, 45)
 
 		b = tk.Button(lf,
 			text="Valider",command=self.confirm_rotate)
@@ -249,11 +249,52 @@ class App:
 		self.last_select.rotate(angle)
 
 	def translate_vect(self):
-		pass
+		self.hide_all()
+		self.top = tk.Toplevel()
+		lf = tk.LabelFrame(self.top,text="Paramètres de translation")
+		tk.Label(lf, text="Vecteur v")
+		l = tk.Label(lf, text="x: ")
+		self.s = tk.Spinbox(lf, from_=1, to=360)
+		self.s.delete(0, tk.END)
+		self.s.insert(0, 45)
+		l2 = tk.Label(lf, text="y: ")
+		self.s2 = tk.Spinbox(lf, from_=1, to=360)
+		self.s2.delete(0, tk.END)
+		self.s2.insert(0, 45)
+		b = tk.Button(lf,
+			text="Valider",command=self.confirm_translate)
+		l.grid(column=0, row=0, ipadx=5, pady=5)
+		self.s.grid(column=1, row=0, ipadx=5, pady=5)
+		l2.grid(column=0, row=1, ipadx=5, pady=5)
+		self.s2.grid(column=1, row=1, ipadx=5, pady=5)
+		b.grid(column=0, row=2, ipadx=5, pady=5)
+		lf.pack(pady=20, padx=20)
+		self.print_infos()
+
+	def confirm_translate(self):
+		x = int(self.s.get())
+		y = int(self.s2.get())
+		self.last_select.translate(x,y)
 
 	def scale_vect(self):
-		pass
+		self.hide_all()
+		self.top = tk.Toplevel()
+		lf = tk.LabelFrame(self.top,text="Paramètres d'homotéthie")
+		l = tk.Label(lf, text="Rapport alpha: ")
+		self.s = tk.Spinbox(lf, from_=1, to=360)
+		self.s.delete(0, tk.END)
+		self.s.insert(0, 0)
+		b = tk.Button(lf,
+			text="Valider",command=self.confirm_scale)
+		l.grid(column=0, row=0, ipadx=5, pady=5)
+		self.s.grid(column=1, row=0, ipadx=5, pady=5)
+		b.grid(column=0, row=1, ipadx=5, pady=5)
+		lf.pack(pady=20, padx=20)
+		self.print_infos()
 
+	def confirm_scale(self):
+		alpha = float(self.s.get())
+		self.last_select.scale(alpha)
 
 	# SEGMENTS
 	def place_seg(self):

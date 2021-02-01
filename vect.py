@@ -59,18 +59,21 @@ class Vect:
 
 	def rotate(self, pangle):
 		angle = math.radians(pangle)
-		print(self.x,self.y)
-		print("Angle:"+str(self._angle))
-		print("Rotation d'angle:",str(angle))
 		tmp_x, tmp_y = self.convert(self.x, self.y)
-		print(tmp_x,tmp_y)
-		print(math.sin(angle))
-		print(math.sin(angle)*tmp_x)
 		self.x,self.y= self.unconvert(math.cos(angle)*tmp_x-math.sin(angle)*tmp_y,math.sin(angle)*tmp_x+math.cos(angle)*tmp_y)
-		print("Nouvelles coords")
-		print(self.convert(self.x,self.y))
 		self.canv.coords(self._id,self.xo,self.yo,self.x,self.y)
 		self._angle += angle
 
 	def translate(self, dx, dy):
-		pass
+		x,y = self.convert(self.x,self.y)
+		new_x,new_y = self.unconvert(x+dx,y+dy)
+		self.x = new_x
+		self.y = new_y
+		self.canv.coords(self._id,self.xo,self.yo,self.x,self.y)
+
+	def scale(self,alpha):
+		x,y = self.convert(self.x,self.y)
+		new_x,new_y = self.unconvert(x*alpha,y*alpha)
+		self.x = new_x
+		self.y = new_y
+		self.canv.coords(self._id,self.xo,self.yo,self.x,self.y)
